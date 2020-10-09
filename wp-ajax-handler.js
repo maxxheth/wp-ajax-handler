@@ -1,4 +1,6 @@
-export const wpAjaxHandler = ({
+import testJSON from './src/test-json';
+
+const wpAjaxHandler = ({
   root, // eslint-disable-line
   nonce, // eslint-disable-line
   requestSlug = '',
@@ -103,3 +105,5 @@ export const wpAjaxHandler = ({
   return ajaxPromise.then(thenCB); 
 
 };
+
+export default wpAjaxHandler;

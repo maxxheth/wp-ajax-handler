@@ -1,11 +1,31 @@
 {
-  "name": "wp-ajax-handler",
+  "name": "@maxxheth/wp-ajax-handler",
   "version": "1.0.0",
   "description": "This package makes it easier to send AJAX requests to WP REST endpoints.",
-  "main": "index.js",
+  "main": "wp-ajax-handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maximillian Heth",
-  "license": "ISC"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxxheth/wp-ajax-handler.git"
+  },
+  "keywords": [
+    "wordpress",
+    "wp",
+    "wordpress",
+    "rest",
+    "api",
+    "wp",
+    "rest",
+    "api",
+    "ajax",
+    "rest"
+  ],
+  "bugs": {
+    "url": "https://github.com/maxxheth/wp-ajax-handler/issues"
+  },
+  "homepage": "https://github.com/maxxheth/wp-ajax-handler#readme"
 }
