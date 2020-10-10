@@ -1,13 +1,13 @@
 import testJSON from './src/test-json';
 
 const wpAjaxHandler = ({
-  root, 
-  nonce, 
+  root,
+  nonce,
   requestSlug = '',
   wpLocalizeHandle = 'wpRestApi',
   httpMethod = 'GET',
-  data = {}, 
-  thenCB = function() {}
+  data = {},
+  thenCB = function () {}
 } = {}) => {
 
   try {
@@ -50,19 +50,17 @@ const wpAjaxHandler = ({
       
       `);
 
-    
-
     }
 
     if (!root) {
 
-      root = window[wpLocalizeHandle].root; 
+      root = window[wpLocalizeHandle].root;
 
     }
 
     if (!nonce) {
 
-      nonce = window[wpLocalizeHandle].nonce; 
+      nonce = window[wpLocalizeHandle].nonce;
 
     }
 
@@ -70,8 +68,8 @@ const wpAjaxHandler = ({
 
   } catch (error) {
 
-    console.log(error); 
-    
+    console.log(error);
+
     return;
   }
 
@@ -87,27 +85,29 @@ const wpAjaxHandler = ({
 
     xhr.addEventListener('readystatechange', () => {
 
-      switch(xhr.readyState) {
+      switch (xhr.readyState) {
 
-      case 4:
-          
-        try {
+        case 4:
 
-          if (xhr.status === 200 && testJSON(xhr.response)) {
+          try {
 
-            resolve(JSON.parse(xhr.response)); // Parse and resolve it.
+            if (xhr.status === 200 && testJSON(xhr.response)) {
 
-          } else {
+              resolve(JSON.parse(xhr.response)); // Parse and resolve it.
 
-            reject(xhr.response); // If it's rejected, let's find out why.
+            } else {
+
+              reject(xhr.response); // If it's rejected, let's find out why.
+
+            }
+
+          } catch (error) {
+
+            console.log({
+              error
+            });
 
           }
-          
-        } catch (error) {
-
-          console.log({ error });
-          
-        }
 
       }
 
@@ -119,7 +119,7 @@ const wpAjaxHandler = ({
 
     // Give WordPress the secret handshake. 
 
-    xhr.setRequestHeader('X-WP-Nonce', nonce); 
+    xhr.setRequestHeader('X-WP-Nonce', nonce);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -130,7 +130,7 @@ const wpAjaxHandler = ({
      * 
      */
 
-    if (httpMethod !== 'GET' && JSONData) { 
+    if (httpMethod !== 'GET' && JSONData) {
 
       xhr.send(JSONData);
 
@@ -138,18 +138,18 @@ const wpAjaxHandler = ({
 
       xhr.send();
 
-    } 
+    }
 
   });
 
   /**
-     * 
-     * Pass the callback to the then method and
-     * do something with the data.
-     * 
-     */
-    
-  return ajaxPromise.then(thenCB); 
+   * 
+   * Pass the callback to the then method and
+   * do something with the data.
+   * 
+   */
+
+  return ajaxPromise.then(thenCB);
 
 };
 
