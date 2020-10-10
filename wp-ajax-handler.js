@@ -1,8 +1,8 @@
 import testJSON from './src/test-json';
 
 const wpAjaxHandler = ({
-  root, // eslint-disable-line
-  nonce, // eslint-disable-line
+  root, 
+  nonce, 
   requestSlug = '',
   wpLocalizeHandle = 'wpRestApi',
   httpMethod = 'GET',
@@ -12,21 +12,65 @@ const wpAjaxHandler = ({
 
   try {
 
+    if (!window[wpLocalizeHandle]) {
+
+      throw new Error(`Please use wp_localize_script to create an object before using wpAjaxHandler like so:
+      
+      /** 
+       * 
+       * Note: Please understand that wpLocalizeHandle is a misnomer (whoops! =P) since
+       * it actually refers to the object's name and not the handle itself, but this is where
+       * you need to enter the object's name so you can grab the root and nonce props to
+       * validate your request.
+       * 
+       * Anyhow, here's an example of how to use wp_localize_script so you can then
+       * use wpAjaxHandler to make your life slightly easier. So copy and paste away! =D
+       * 
+       * 
+       * */ 
+
+      // Hint: Place this in the function where you enqueued your JS, and preferably below it like so:
+
+      add_action('wp_enqueue_scripts', 'enqueue_my_js_yo');
+
+      function enqueue_my_js_yo() {
+                                                                          
+        wp_enqueue_script('my-js-handle', get_template_directory_uri() . '/js/my-badass-script.js', [], date('h:i:s'), true); // Hint: date('h:i:s') is a neat trick for cache-busting! =0 
+
+        // Now enter your script's handle as the first argument for wp_localize_script.
+
+        wp_localize_script('my-js-handle', 'objectName', [
+
+          root: esc_raw_html(rest_url()), // Copy and paste these props and you'll be golden! ;)
+          nonce: wp_create_nonce('wp_rest')
+
+        ]
+
+      }
+      
+      `);
+
+    
+
+    }
+
     if (!root) {
 
-      root = window[wpLocalizeHandle].root; // eslint-disable-line
+      root = window[wpLocalizeHandle].root; 
 
     }
 
     if (!nonce) {
 
-      nonce = window[wpLocalizeHandle].nonce; // eslint-disable-line
+      nonce = window[wpLocalizeHandle].nonce; 
 
     }
 
+
+
   } catch (error) {
 
-    console.log(error); // eslint-disable-line
+    console.log(error); 
     
     return;
   }
@@ -36,11 +80,10 @@ const wpAjaxHandler = ({
     const xhr = new XMLHttpRequest();
 
     /**
-     * If the data object has no properties, assign null. Otherwise, format it as JSON.
+     * If the data object has no properties, assign null. Otherwise, convert it into JSON.
      */
 
     const JSONData = Object.entries(data).length > 0 ? JSON.stringify(data) : null;
-
 
     xhr.addEventListener('readystatechange', () => {
 
@@ -52,37 +95,40 @@ const wpAjaxHandler = ({
 
           if (xhr.status === 200 && testJSON(xhr.response)) {
 
-            // if (!testJSON(xhr.response)) return; // If the test fails, bail out.
-
             resolve(JSON.parse(xhr.response)); // Parse and resolve it.
 
           } else {
 
-            reject(xhr.response);
+            reject(xhr.response); // If it's rejected, let's find out why.
 
           }
           
         } catch (error) {
-          console.log({ error }); // eslint-disable-line
+
+          console.log({ error });
+          
         }
 
       }
 
     });
 
+    // Plop the HTTP request method and URL into the open method.
+
     xhr.open(httpMethod, root + requestSlug);
 
-    xhr.setRequestHeader('X-WP-Nonce', nonce); // eslint-disable-line
+    // Give WordPress the secret handshake. 
+
+    xhr.setRequestHeader('X-WP-Nonce', nonce); 
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
-
     /**
-         * 
-         * If the HTTP request method is anything other than GET and JSONData is truthy,
-         * then fire off the data.
-         * 
-         */
+     * 
+     * If the HTTP request method is anything other than GET and JSONData is truthy,
+     * then fire off the data.
+     * 
+     */
 
     if (httpMethod !== 'GET' && JSONData) { 
 
@@ -98,7 +144,8 @@ const wpAjaxHandler = ({
 
   /**
      * 
-     * Pass the callback to the then method.
+     * Pass the callback to the then method and
+     * do something with the data.
      * 
      */
     
