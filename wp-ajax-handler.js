@@ -1,4 +1,4 @@
-import testJSON from './src/test-json';
+import testJSON from './utilities/test-json';
 
 const wpAjaxHandler = ({
   root,
