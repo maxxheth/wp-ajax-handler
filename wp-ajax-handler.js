@@ -64,8 +64,6 @@ const wpAjaxHandler = ({
 
     }
 
-
-
   } catch (error) {
 
     console.log(error);
