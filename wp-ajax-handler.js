@@ -41,10 +41,10 @@ const wpAjaxHandler = ({
 
         wp_localize_script('my-js-handle', 'WP_REST_API', [
 
-          root: esc_raw_html(rest_url()), // Copy and paste these props and you'll be golden! ;)
-          nonce: wp_create_nonce('wp_rest')
+          'root' => esc_raw_html(rest_url()), // Copy and paste these props and you'll be golden! ;)
+          'nonce' => wp_create_nonce('wp_rest')
 
-        ]
+        ];
 
       }
       
