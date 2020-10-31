@@ -1,6 +1,6 @@
 {
   "name": "@maxxheth/wp-ajax-handler",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "This package makes it easier to send AJAX requests to WP REST endpoints.",
   "main": "wp-ajax-handler.js",
   "scripts": {
